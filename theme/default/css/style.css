@@ -1,0 +1,168 @@
+/* -- variables ------------------------------------------------------------- */
+:root {
+	--color-main_1: rgba(197, 226, 255, 1);
+
+	--color-second_1: rgba(218, 108, 17, 1);
+
+	--color-text_1: rgba(126, 74, 0, 1);
+	--color-text_2: rgb(255, 91, 0);
+	--color-btn-hover_1: rgba(237, 132, 0, 0.2);
+
+	--color-main_gradient_1: rgba(77, 166, 255, 1);
+	--color-main_gradient_2: rgba(197, 226, 255, 1);
+	--color-main_gradient_3: rgba(255, 228, 210, 1);
+
+	--color-form-bg: rgba(255, 255, 255, 0.25);
+}
+
+
+
+
+/* -- base ------------------------------------------------------------------ */
+body {
+	font-family: -apple-system, BlinkMacSystemFont,
+		"Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 14px;
+}
+
+body {
+	min-height: 100vh;
+	/* overflow-x: scroll; */
+
+	background-color: var(--color-main_1);
+
+	color: var(--color-text_1);
+	font-size: 14px;
+	overflow-wrap: break-word;
+	white-space: pre-wrap;
+}
+
+body::before {
+	content: '';
+
+	position: fixed;
+	z-index: -1;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+
+	background: linear-gradient(200deg,
+			var(--color-main_gradient_1) 0%,
+			var(--color-main_gradient_2) 33%,
+			var(--color-main_gradient_2) 69%,
+			var(--color-main_gradient_3) 100%);
+
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+}
+
+footer {
+	margin-top: auto;
+}
+
+a {
+	color: var(--color-text_1);
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: 0 auto;
+	max-width: calc(1560px + 5vw * 2);
+	padding: 0 5vw;
+}
+
+main,
+header,
+footer {
+	padding: 5vh 0;
+}
+
+@media (max-width: 440px) {
+	.container {
+		padding: 0 3vw;
+	}
+
+	main,
+	header,
+	footer {
+		padding: 3vh 0;
+	}
+
+}
+
+/* -- helpers --------------------------------------------------------------- */
+.txtnw {
+	white-space: nowrap;
+}
+
+/* 
+--------------------------------------------------------------------------------
+-- components 
+--------------------------------------------------------------------------------
+*/
+
+/* -- form ------------------------------------------------------------------ */
+.form-item-input.--text {
+	padding: 0.4em;
+	width: 100%;
+	min-height: 2em;
+	height: 2em;
+
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1;
+
+	border: 1px solid var(--color-text_1);
+	border-radius: 6px;
+	background-color: var(--color-form-bg);
+
+	resize: vertical;
+}
+
+
+
+
+
+
+
+
+
+/* 
+--------------------------------------------------------------------------------
+-- blocks 
+--------------------------------------------------------------------------------
+*/
+
+/* -- footer ---------------------------------------------------------------- */
+
+.copyright {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.copyright__svg {
+	flex: 0 0;
+	display: flex;
+}
+
+.img-cat {
+	width: 60px;
+	height: 60px;
+}
+
+.img-cat .path-main {
+	fill: var(--color-text_1);
+}
+
+.copyright__text {
+	flex: 0 0;
+}

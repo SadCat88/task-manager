@@ -1,0 +1,13 @@
+.helper--debug {
+	padding: 0.2em 0.5em;
+	display: block;
+	background-color: #000000;
+	color: #96e596;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 18px;
+	font-family: monospace,monospace;
+	user-select: text;
+	overflow-wrap: break-word;
+	white-space: pre-wrap;
+}
