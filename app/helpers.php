@@ -195,7 +195,9 @@ function changeGetParams($params = null, $mode = 'uri') {
 	$urlParts = parse_url($urlFull);
 
 	$urlGetParams = [];
-	parse_str($urlParts['query'], $urlGetParams);
+	if (!empty($urlParts['query'])) {
+		parse_str($urlParts['query'], $urlGetParams);
+	}
 
 	foreach ($params as $name => $val) {
 		if ($val === false || $val === null) {
@@ -207,11 +209,14 @@ function changeGetParams($params = null, $mode = 'uri') {
 		}
 	}
 
+
 	$new_url = '';
 	if ($mode === 'uri') {
-		$new_url .= $new_url;
+		$new_url .= (empty($urlParts['path'])) ? '/' : $urlParts['path'];
 	}
-	$new_url .= '/?' . http_build_query($urlGetParams);
+	if (!empty($urlGetParams)) {
+		$new_url .= '?' . http_build_query($urlGetParams);
+	}
 
 	return $new_url;
 

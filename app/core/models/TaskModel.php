@@ -66,4 +66,27 @@ class TaskModel extends Model {
 		return $result;
 	}
 
+	public function createTask(
+		$user = null,
+		$email = null,
+		$description = null,
+		$state = 0
+	) {
+		$result = false;
+
+		if (($table = self::$TABLE) && $user && $email && $description) {
+		
+			$query = 
+				"INSERT INTO `{$table}` (`user`, `email`, `description`, `state`)
+				VALUES ('{$user}', '{$email}', '{$description}', '{$state}');";
+
+			self::$DBRES = mysqli_query(self::$DBCON, $query);
+
+			$result = true;
+
+		}
+
+		return $result;
+	}
+
 }

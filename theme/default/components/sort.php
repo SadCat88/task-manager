@@ -1,6 +1,25 @@
-<ul class="sort">
-  <li class="sort__item" date-sort="1">Order</li>
-  <li class="sort__item" date-sort="0">Username</li>
-  <li class="sort__item" date-sort="0">Email</li>
-  <li class="sort__item" date-sort="0">State</li>
-</ul>
+<? if ($arResult['sort']['SHOW']): ?>
+  <ul class="sort">
+
+    <? $item = $arResult['sort']['ITEMS']['ORDER_ID']; ?>
+    <li class="sort__item" date-sort="<?= $item['VALUE'] ?>">
+      <a href="<?= $item['LINK'] ?>">Order</a>
+    </li>
+
+    <? $item = $arResult['sort']['ITEMS']['ORDER_USER']; ?>
+    <li class="sort__item" date-sort="<?= $item['VALUE'] ?>">
+      <a href="<?= $item['LINK'] ?>">Username</a>
+    </li>
+
+    <? $item = $arResult['sort']['ITEMS']['ORDER_EMAIL']; ?>
+    <li class="sort__item" date-sort="<?= $item['VALUE'] ?>">
+      <a href="<?= $item['LINK'] ?>">Email</a>
+    </li>
+
+    <? $item = $arResult['sort']['ITEMS']['ORDER_STATE']; ?>
+    <li class="sort__item" date-sort="<?= $item['VALUE'] ?>">
+      <a href="<?= $item['LINK'] ?>">State</a>
+    </li>
+
+  </ul>
+<? endif; ?>

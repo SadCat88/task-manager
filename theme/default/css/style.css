@@ -18,6 +18,7 @@
 	--color-state-bad_gradient_2: rgba(255, 185, 185, 0.6);
 
 	--color-form-bg: rgba(255, 255, 255, 0.25);
+	--color-form-bg__error: rgba(255, 140, 140, 0.25);
 }
 
 /* -- base ------------------------------------------------------------------ */
@@ -73,8 +74,8 @@ a {
 	flex-direction: column;
 	width: 100%;
 	margin: 0 auto;
-	max-width: calc(1560px + 5vw * 2);
-	padding: 0 5vw;
+	max-width: calc(1024px + 15vw * 2);
+	padding: 0 15vw;
 }
 
 main,
@@ -114,10 +115,44 @@ h2 {
 --------------------------------------------------------------------------------
 */
 
+
+/* -- message --------------------------------------------------------------- */
+.message.--global {
+	position: fixed;
+	bottom: 16px;
+	left: 16px;
+	
+	padding: 2em 4em;
+	
+	background-color: var(--color-form-bg);
+	border: 1px solid var(--color-text_2);
+	border-radius: 6px;
+	
+	font-weight: 600;
+}
+
+.btn.--close {
+	border: none;
+	background: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.btn.--close:hover {
+	border: none;
+	background: none;
+}
+
+
 /* -- task-list ------------------------------------------------------------- */
 .task-list {
 	display: flex;
 	flex-direction: column;
+}
+
+.task-list.--empty {
+	padding: 2em 0 5em 2em;
 }
 
 .task {
@@ -144,6 +179,7 @@ h2 {
 
 .task__description {
 	font-size: 18px;
+	white-space: pre-line;
 }
 
 .task.--done {
@@ -180,7 +216,6 @@ h2 {
 	
 	position: relative;
 
-	padding: 0.4em 2em 0.4em 1em;
 	min-height: 2em;
 
 	cursor: pointer;
@@ -197,6 +232,11 @@ h2 {
 	transition: all 0.3s ease 0s;
 }
 
+.sort__item a {
+	padding: 0.4em 2em 0.4em 1em;
+	text-decoration: none;
+}
+
 .sort__item::after {
 	content: '';
 	position: absolute;
@@ -207,16 +247,28 @@ h2 {
 	
 }
 
-.sort__item[date-sort="0"]::after {
+.sort__item[date-sort="NULL"]::after {
 	content: '';
 }
 
-.sort__item[date-sort="1"]::after {
+.sort__item[date-sort="DESC"]::after {
 	content: '▼';
 }
 
-.sort__item[date-sort="2"]::after {
+.sort__item[date-sort="ASC"]::after {
 	content: '▲';
+}
+
+.sort__item[date-sort="NULL"]:hover::after {
+	content: '▼';
+}
+
+.sort__item[date-sort="DESC"]:hover::after {
+	content: '▲';
+}
+
+.sort__item[date-sort="ASC"]:hover::after {
+	content: '╳';
 }
 	
 
@@ -225,6 +277,7 @@ h2 {
 	border: 1px solid var(--color-text_2);
 	background-color: var(--color-btn-hover_1);
 }
+
 
 
 
@@ -257,6 +310,11 @@ h2 {
 
 .form-item-title {
 	margin-bottom: 0.5em;
+}
+
+.form-item-error {
+	text-align: right;
+	color: var(--color-text_2);
 }
 
 .btn {
@@ -297,6 +355,11 @@ h2 {
 	border: 1px solid var(--color-text_1);
 	border-radius: 6px;
 	background-color: var(--color-form-bg);
+}
+
+.form-item.--error .form-item-input{
+	border: 1px solid var(--color-text_2);
+	background-color: var(--color-form-bg__error);
 }
 
 .form-item-input.--input {

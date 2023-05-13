@@ -45,3 +45,22 @@ window.addEventListener( 'resize', ( event ) => {
 	//-- Пересчет высоты textarea
 	setHeightInput();
 } );
+
+
+//-- Закрыть сообщение
+let btnClose = document.querySelector('.btn.--close');
+
+if ( btnClose !== null ) {
+
+	btnClose.addEventListener( 'mousedown', ( event ) => {
+		
+		event.preventDefault( );
+		
+		$message = event.target.closest('.message.--global');
+		if( $message !== null ){
+			$message.remove();
+		}
+		
+	} );
+		
+}
