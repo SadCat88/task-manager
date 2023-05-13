@@ -2,7 +2,7 @@
 
 Router::add(
 	'/',
-	['controller' => 'Index', 'action' => 'show']
+	['controller' => 'Task', 'action' => 'show']
 );
 
 Router::add(

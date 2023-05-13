@@ -12,34 +12,32 @@
 	--color-main_gradient_2: rgba(197, 226, 255, 1);
 	--color-main_gradient_3: rgba(255, 228, 210, 1);
 
+	--color-state-ok_gradient_1: rgba(195, 255, 185, 0.1);
+	--color-state-ok_gradient_2: rgba(195, 255, 185, 0.4);
+	--color-state-bad_gradient_1: rgba(255, 185, 185, 0.1);
+	--color-state-bad_gradient_2: rgba(255, 185, 185, 0.6);
+
 	--color-form-bg: rgba(255, 255, 255, 0.25);
 }
 
-
-
-
 /* -- base ------------------------------------------------------------------ */
 body {
-	font-family: -apple-system, BlinkMacSystemFont,
-		"Segoe UI", Roboto, Helvetica, Arial, sans-serif,
-		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+		Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	font-size: 14px;
 }
 
 body {
 	min-height: 100vh;
-	/* overflow-x: scroll; */
 
 	background-color: var(--color-main_1);
-
 	color: var(--color-text_1);
 	font-size: 14px;
 	overflow-wrap: break-word;
-	white-space: pre-wrap;
 }
 
 body::before {
-	content: '';
+	content: "";
 
 	position: fixed;
 	z-index: -1;
@@ -48,12 +46,13 @@ body::before {
 	top: 0;
 	bottom: 0;
 
-	background: linear-gradient(200deg,
-			var(--color-main_gradient_1) 0%,
-			var(--color-main_gradient_2) 33%,
-			var(--color-main_gradient_2) 69%,
-			var(--color-main_gradient_3) 100%);
-
+	background: linear-gradient(
+		200deg,
+		var(--color-main_gradient_1) 0%,
+		var(--color-main_gradient_2) 33%,
+		var(--color-main_gradient_2) 69%,
+		var(--color-main_gradient_3) 100%
+	);
 }
 
 body {
@@ -84,6 +83,14 @@ footer {
 	padding: 5vh 0;
 }
 
+section {
+	margin-bottom: 1em;
+}
+
+h2 {
+	margin-bottom: 0.5em;
+}
+
 @media (max-width: 440px) {
 	.container {
 		padding: 0 3vw;
@@ -94,7 +101,6 @@ footer {
 	footer {
 		padding: 3vh 0;
 	}
-
 }
 
 /* -- helpers --------------------------------------------------------------- */
@@ -108,30 +114,261 @@ footer {
 --------------------------------------------------------------------------------
 */
 
-/* -- form ------------------------------------------------------------------ */
-.form-item-input.--text {
-	padding: 0.4em;
+/* -- task-list ------------------------------------------------------------- */
+.task-list {
+	display: flex;
+	flex-direction: column;
+}
+
+.task {
+	margin-bottom: 1.5em;
+	padding: 1em;
 	width: 100%;
+
+	font-size: 16px;
+	line-height: 1.5em;
+	border: 1px solid var(--color-text_1);
+	border-radius: 6px;
+	background-color: var(--color-form-bg);
+}
+
+.task--title-panel {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1em;
+}
+
+.task__username {
+	font-weight: 600;
+}
+
+.task__description {
+	font-size: 18px;
+}
+
+.task.--done {
+	background: linear-gradient(
+		15deg,
+		var(--color-state-ok_gradient_1)  0%,
+		var(--color-state-ok_gradient_2)  100%
+	);
+}
+
+.task.--await {
+	background: linear-gradient(
+		15deg,
+		var(--color-state-bad_gradient_1)  0%,
+		var(--color-state-bad_gradient_2)  100%
+	);
+}
+
+/* -- sort ------------------------------------------------------------------ */
+
+.sort {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	margin-top: 1.5em;
+	margin-bottom: 2em;
+}
+
+.sort__item {
+	display: inline-flex;
+	margin-right: 0.5em;
+	justify-content: center;
+	align-items: center;
+	
+	position: relative;
+
+	padding: 0.4em 2em 0.4em 1em;
 	min-height: 2em;
-	height: 2em;
+
+	cursor: pointer;
+	background: none;
+	border: 1px solid var(--color-text_1);
+	border-radius: 6px;
 
 	font-size: 16px;
 	font-weight: 700;
 	line-height: 1;
+	color: var(--color-text_1);
+	text-decoration: none;
 
-	border: 1px solid var(--color-text_1);
-	border-radius: 6px;
-	background-color: var(--color-form-bg);
+	transition: all 0.3s ease 0s;
+}
 
-	resize: vertical;
+.sort__item::after {
+	content: '';
+	position: absolute;
+	
+	right: 0.5em;
+	top: 50%;
+	transform: translateY(-50%);
+	
+}
+
+.sort__item[date-sort="0"]::after {
+	content: '';
+}
+
+.sort__item[date-sort="1"]::after {
+	content: '▼';
+}
+
+.sort__item[date-sort="2"]::after {
+	content: '▲';
+}
+	
+
+.sort__item:hover {
+	color: var(--color-text_2);
+	border: 1px solid var(--color-text_2);
+	background-color: var(--color-btn-hover_1);
 }
 
 
 
+/* -- form ------------------------------------------------------------------ */
+.w-form.--line-2 {
+	display: flex;
+	margin-left: -0.5em;
+	margin-right: -0.5em;
+}
+
+.w-form.--line-a-r {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.w-form .form-item {
+	flex: 1 0;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	width: 100%;
+	max-width: 50%;
+}
+
+.form-item {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1.5em;
+}
+
+.form-item-title {
+	margin-bottom: 0.5em;
+}
+
+.btn {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+
+	padding: 0.4em 1em;
+	min-height: 2em;
+
+	cursor: pointer;
+	background: none;
+	border: 1px solid var(--color-text_1);
+	border-radius: 6px;
+
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1;
+	color: var(--color-text_1);
+	text-decoration: none;
+
+	transition: all 0.3s ease 0s;
+}
+
+.btn:hover,
+.btn:focus {
+	color: var(--color-text_2);
+	border: 1px solid var(--color-text_2);
+	background-color: var(--color-btn-hover_1);
+}
+
+.form-item-input.--text {
+	padding: 1em;
+	width: 100%;
+
+	font-size: 16px;
+
+	border: 1px solid var(--color-text_1);
+	border-radius: 6px;
+	background-color: var(--color-form-bg);
+}
+
+.form-item-input.--input {
+	height: 2em;
+}
+
+.form-item-input.--textarea {
+	min-height: 2em;
+	resize: vertical;
+}
 
 
+/* -- pagination ------------------------------------------------------------ */
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-left: -0.5em;
+	margin-right: -0.5em;
+	
+	font-size: 20px;
+}
 
+.pagination-item {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
 
+.pagination-item a {
+	text-decoration: none;
+}
+
+.pagination__btn {
+	display: inline-flex;
+	margin-right: 0.5em;
+	justify-content: center;
+	align-items: center;
+	
+	position: relative;
+
+	padding: 0.4em 1em;
+	min-height: 2em;
+
+	background: none;
+	border: 1px solid var(--color-text_1);
+	border-radius: 6px;
+
+	cursor: pointer;
+	
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1;
+	color: var(--color-text_1);
+	text-decoration: none;
+
+	transition: all 0.3s ease 0s;
+}
+
+.pagination-item.--disabled .pagination__btn {
+	opacity: 0.4;
+}
+
+.pagination-item.--disabled .pagination__btn,
+.pagination-item.--page .pagination__btn{
+	cursor: default;
+}
+
+.pagination-item:not(.--page):not(.--disabled) .pagination__btn:hover {
+	color: var(--color-text_2);
+	border: 1px solid var(--color-text_2);
+	background-color: var(--color-btn-hover_1);
+}
 
 
 /* 

@@ -37,7 +37,7 @@ class Model {
     return self::$DBRES;
   }
 
-  public function getArray() {
+  public function getAll() {
 
     for ($data = []; $row = mysqli_fetch_assoc(self::$DBRES); $data[$row['id']] = $row) {
     }
@@ -51,7 +51,12 @@ class Model {
 
   }
 
+  
+  public function getValue() {
 
+    return mysqli_fetch_row(self::$DBRES)[0];
+
+  }
 
 
 }

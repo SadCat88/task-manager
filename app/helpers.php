@@ -175,3 +175,44 @@ spl_autoload_register(function ($className) {
 	}
 
 });
+
+/**
+ * Замена GET параметров в URI
+ * 	$params = [
+ *  	'PAGEN' => '2',
+ * 		'ORDER_ID' => 'DESC',
+ * 	];
+ * 
+ * 	$mode = 'uri'|'get';
+ */
+function changeGetParams($params = null, $mode = 'uri') {
+
+
+	$urlFull = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http')
+		. '://' . $_SERVER['HTTP_HOST']
+		. ((!empty($_SERVER['QUERY_STRING'])) ? '/?' . $_SERVER['QUERY_STRING'] : '');
+
+	$urlParts = parse_url($urlFull);
+
+	$urlGetParams = [];
+	parse_str($urlParts['query'], $urlGetParams);
+
+	foreach ($params as $name => $val) {
+		if ($val === false || $val === null) {
+			unset($urlGetParams[$name]);
+		}
+		//
+		else {
+			$urlGetParams[$name] = $val;
+		}
+	}
+
+	$new_url = '';
+	if ($mode === 'uri') {
+		$new_url .= $new_url;
+	}
+	$new_url .= '/?' . http_build_query($urlGetParams);
+
+	return $new_url;
+
+}
