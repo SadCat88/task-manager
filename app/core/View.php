@@ -12,7 +12,11 @@ class View {
 
 
 		//-- Собрать шаблоны
-		$arView = ['MAIN' => 'home'];
+		match ($view['class']) {
+			'IndexView' => $arView = ['MAIN' => 'home'],
+			'LoginView' => $arView = ['MAIN' => 'login']
+		};
+
 		$arResult = $view['data'];
 		define('_TEMPLATE_PATH_', 'theme/' . Config::get('theme'));
 		require __DIR__ . '/../../' . _TEMPLATE_PATH_ . '/index.php';

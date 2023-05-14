@@ -10,22 +10,33 @@ class TaskController extends Controller {
 
 	public static function show() {
 
-		self::$data['MESSAGES'] = [
-			'GLOBAL' => []
+		self::$data = [
+			'MESSAGES' => [
+				'GLOBAL' => [],
+			],
+			'USER' => [
+				'LOGIN' => false,
+			// 	'ID' => 1,
+			// 	'NAME' => 'manager',
+			// 	'ACTIVE' => true
+			]
 		];
 
 		session_start();
 
 		// $_SESSION['MESSAGES']['GLOBAL'] = 'Задача успешно создана!';
-		if(!empty($_SESSION['MESSAGES']['GLOBAL'])){
+		if (!empty($_SESSION['MESSAGES']['GLOBAL'])) {
 			self::$data['MESSAGES']['GLOBAL'] = $_SESSION['MESSAGES']['GLOBAL'];
 		}
 		unset($_SESSION['MESSAGES']['GLOBAL']);
 
+		if (!empty($_SESSION['USER'])) {
+			self::$data['USER'] = $_SESSION['USER'];
+		}
 
 		self::getForm();
-		if(!empty($_POST['TASK_CREATE']) && $_POST['TASK_CREATE'] === 'true'){
-			self::createTask();	
+		if (!empty($_REQUEST['TASK_CREATE']) && $_REQUEST['TASK_CREATE'] === 'true') {
+			self::createTask();
 		}
 
 		self::getTaskList();
@@ -86,12 +97,12 @@ class TaskController extends Controller {
 
 		// TODO: Сделать редирект в случае превышение лимита
 		if (empty($result) && self::$CURRENT_PAGE_NUM !== 1) {
-			debug('Сделать потом редирект на первую страницу по параметру $pagination["REDIRECT_TO_FIRST"]');
+			vd('Сделать потом редирект на первую страницу по параметру $pagination["REDIRECT_TO_FIRST"]');
 		}
 
 		$taskList['ITEMS'] = $result;
 
-		$taskList['SHOW'] = ( !empty($result ) ) ? true : false;
+		$taskList['SHOW'] = (!empty($result)) ? true : false;
 
 		self::$data['task-list'] = $taskList;
 
@@ -172,11 +183,11 @@ class TaskController extends Controller {
 			]
 		];
 
-		if( self::$TASK_DB_COUNT > 1 ){
+		if (self::$TASK_DB_COUNT > 1) {
 
 			//-- Передача в сортировку ссылок для каждого элемента
 			foreach ($sort['ITEMS'] as $item => &$data) {
-	
+
 				//-- Считать текущее значение
 				if (
 					!empty($_REQUEST[$item])
@@ -189,7 +200,7 @@ class TaskController extends Controller {
 					//-- Установка текущего значения
 					$data['VALUE'] = $_REQUEST[$item];
 				}
-	
+
 				//-- Следующее значение
 				$nextVal = array_search($data['VALUE'], $orderFlow);
 				$nextVal++;
@@ -197,15 +208,13 @@ class TaskController extends Controller {
 					$nextVal = 0;
 				}
 				$nextVal = ($orderFlow[$nextVal] === 'NULL') ? null : $orderFlow[$nextVal];
-	
+
 				//-- Передача в сортировку ссылок
 				$params = [$item => $nextVal];
 				$data['LINK'] = changeGetParams($params);
 			}
 
-		}
-
-		else {
+		} else {
 			$sort['SHOW'] = false;
 		}
 
@@ -241,27 +250,28 @@ class TaskController extends Controller {
 				'TASK_DESCRIPTION' => ['VALUE' => '', 'ERROR' => ''],
 			]
 		];
-		
-		foreach ($form['ITEMS'] as $item => &$data) {
-			if ( !empty($_REQUEST[$item]) ) {
-				$data['VALUE'] = htmlentities($_REQUEST[$item], ENT_QUOTES, 'UTF-8');
 
-				if( $item === 'TASK_EMAIL'){
+		foreach ($form['ITEMS'] as $item => &$data) {
+			if (!empty($_REQUEST[$item])) {
+
+				$data['VALUE'] = htmlentities(trim($_REQUEST[$item]), ENT_QUOTES, 'UTF-8');
+
+				if ($item === 'TASK_EMAIL') {
 					$pattern = "|^([a-z0-9_.-]{1,20})@([a-z0-9.-]{1,20}).([a-z]{2,4})|is";
-					if(!preg_match($pattern, strtolower($_REQUEST[$item]))) {
+					if (!preg_match($pattern, strtolower($_REQUEST[$item]))) {
 						$form['ERRORS'] = 'Y';
 						$data['ERROR'] = 'В поле Email надо ввести действительный адрес.';
 					}
 				}
-			}
-			else {
+			} else {
 				$form['ERRORS'] = 'Y';
 				$data['ERROR'] = 'Обязательно к заполнению';
 			}
 		}
 
 
-		if( $form['ERRORS'] === 'N' ){
+		if ($form['ERRORS'] === 'N') {
+
 			$Model = new TaskModel();
 
 			$result = $Model->createTask(
@@ -270,17 +280,11 @@ class TaskController extends Controller {
 				$form['ITEMS']['TASK_DESCRIPTION']['VALUE']
 			);
 
-			if( $result ){
-				
+			if ($result) {
+
 				$_SESSION['MESSAGES']['GLOBAL'] = 'Задача успешно создана!';
+				goBack();
 
-
-				$urlFull = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http')
-					. '://' . $_SERVER['HTTP_HOST']
-					. ((!empty($_SERVER['QUERY_STRING'])) ? '/?' . $_SERVER['QUERY_STRING'] : '');
-				header("Location: {$urlFull}");
-				exit;
-				
 			}
 
 		}

@@ -12,7 +12,11 @@ class Controller {
 		//-- Получить $view
 		$routeControllerName = $route['controller'] . 'Controller';
 		$routeControllerMethod = $route['action'] ?? 'show';
-		$this->view = $routeControllerName::$routeControllerMethod();
+		try {
+			$this->view = $routeControllerName::$routeControllerMethod();
+		} catch (Throwable $e) {
+			dd(['Line:' . $e->getLine(), 'File:' . $e->getFile(), 'Error: ' . $e->getMessage()]);
+		}
 
 
 		//-- Запустить представление

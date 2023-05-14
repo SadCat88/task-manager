@@ -2,22 +2,15 @@
 
 class TestModel extends Model {
 
-	public function getById( $id = null ) {
+	public static $TABLE = 'tests';
 
-		$result = null;
+	public function __construct($table = null) {
+		if ($table) {
+      self::$TABLE = $table;
+    }
 
-		if($id){
-
-			$table = self::$TABLE;
-			$query = "SELECT * FROM `{$table}` WHERE `id` = '{$id}' LIMIT 1";
-
-			self::$DBRES = mysqli_query(self::$DBCON, $query);
-			$result = $this->getOne();
-
-		}
-
-		return $result;
-
+		parent::__construct(self::$TABLE);
+		
 	}
 
 }

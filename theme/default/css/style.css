@@ -92,6 +92,13 @@ h2 {
 	margin-bottom: 0.5em;
 }
 
+@media (max-width: 630px) {
+	.container {
+		max-width: calc(1024px + 5vw * 2);
+		padding: 0 5vw;
+	}
+}
+
 @media (max-width: 440px) {
 	.container {
 		padding: 0 3vw;
@@ -103,6 +110,26 @@ h2 {
 		padding: 3vh 0;
 	}
 }
+
+
+
+
+@media (max-width: 1010px) {
+	.w-form.--line-2 { 
+		flex-direction: column;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	
+	.w-form.--line-2  .form-item { 
+		max-width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+
+
 
 /* -- helpers --------------------------------------------------------------- */
 .txtnw {
@@ -281,7 +308,7 @@ h2 {
 
 
 
-/* -- form ------------------------------------------------------------------ */
+/* -- form task ------------------------------------------------------------- */
 .w-form.--line-2 {
 	display: flex;
 	margin-left: -0.5em;
@@ -300,6 +327,7 @@ h2 {
 	margin-right: 0.5em;
 	width: 100%;
 	max-width: 50%;
+	min-width: 340px !important;
 }
 
 .form-item {
@@ -371,6 +399,26 @@ h2 {
 	resize: vertical;
 }
 
+/* -- login ----------------------------------------------------------------- */
+
+.w-form.--line-2.--vert {
+	flex-direction: column;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.w-form.--line-2.--vert .form-item {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.form-login .w-form.--line-a-r {
+	max-width: 50%;
+}
+
+.form-login .w-form.--line-a-r {
+	min-width: 340px !important;
+}
 
 /* -- pagination ------------------------------------------------------------ */
 .pagination {
@@ -439,6 +487,47 @@ h2 {
 -- blocks 
 --------------------------------------------------------------------------------
 */
+
+/* -- header ---------------------------------------------------------------- */
+.wrapper.--line-2 {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+	
+.login {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.login,
+.login * {
+	transition: all 0.3s ease 0s;
+}
+
+.login .img {
+	width: 28px;
+	height: 28px;
+	
+	margin-right: 0.5em;
+	-webkit-filter: 
+		invert(0.5) 
+		grayscale(100%) 
+		sepia(100%) 
+		brightness(30%) 
+		hue-rotate(350deg) 
+		saturate(1500%) 
+		opacity(1);
+}
+
+.login .content {
+	font-size: 16px;
+}
+
+.login:hover {
+	opacity: 0.3;
+}
 
 /* -- footer ---------------------------------------------------------------- */
 

@@ -3,22 +3,63 @@
 /**
  * var_export() с форматированием
  *
- * @param array $arr
+ * @param array $data
  */
-function debug($arr = 'OK') {
+function vd(...$data) {
+
+	//-- Фикс для dd массив в массиве
+	if (is_array($data) && count($data) === 1) {
+		$data = $data[0];
+	}
+
+	//-- Фикс если передали одну строку
+	if (is_array($data) && count($data) === 1 && !empty($data[0])) {
+		$data = $data[0];
+	}
+
+	//-- Значение по умолчанию
+	if (is_array($data) && empty($data)) {
+		$data = '==DEBUG==';
+	}
+
+	//-- Изменение индекса для dd()
+	$bugTraceI = 0;
+	if (debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 0)[0]['file'] === __FILE__) {
+		$bugTraceI = 1;
+	}
+	$bugTraceFile = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 0)[$bugTraceI]['file'];
+	$bugTraceLine = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 0)[$bugTraceI]['line'];
+
 	$GLOBALS['APP']['CORE']['CSS']['helper--debug'] = true;
+
 	echo '<br><pre class="helper--debug">';
+	//-- Файл и строка вызова
+	$heading = $bugTraceI > 0 ?
+		'=== DIE ===' . PHP_EOL
+		: 'Debug  ';
 	echo
 		'<b>'
-		. 'Debug::'
-		. '['
-		. debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 0)[0]['line']
-		. ']'
-		. debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 0)[0]['file']
+		. $heading
+		. '[' . $bugTraceLine . ']::' . $bugTraceFile
 		. '</b>'
+		. PHP_EOL
+		. '-----------'
 		. PHP_EOL;
-	var_export($arr);
+
+	//-- Данные для вывода
+	var_export($data);
+	echo PHP_EOL . '-----------';
 	echo '</pre><br>';
+}
+
+/**
+ * var_export() с форматированием + die()
+ *
+ * @param array $data
+ */
+function dd(...$data) {
+	vd($data);
+	die();
 }
 
 
@@ -144,6 +185,71 @@ function getIndexFiles($pathSearch = null, $arExt = null) {
 }
 
 
+function passwordEncrypt($password = null) {
+
+	$result = false;
+
+	if ($password) {
+		$password = md5($password, true);
+		$result = password_hash($password, PASSWORD_BCRYPT);
+	}
+
+	return $result;
+
+}
+function passwordCheck($password = null, $hash = null) {
+
+	$result = false;
+
+	if ($password && $hash) {
+		$password = md5($password, true);
+		$result = password_verify($password, $hash);
+	}
+
+	return $result;
+
+}
+
+
+function getUrl($home = false) {
+
+	$result = false;
+
+	//-- Домашняя страница HTTP://SITE.COM/
+	if ($home === 'home') {
+		$result =
+				/* HTTP:// */	((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://'
+			/* SITE.COM/ */	. $_SERVER['HTTP_HOST'] . '/';
+
+	}
+	//-- Полный URL HTTP://SITE.COM/SECTION/?GET=OK 
+	else {
+		$result =
+				/* HTTP:// */	((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://'
+			/* SITE.COM  */	. $_SERVER['HTTP_HOST']
+			/* /SECTION/ */	. $_SERVER['REDIRECT_URL']
+			/* ?GET=OK   */	. ((!empty($_SERVER['QUERY_STRING'])) ? '/?' . $_SERVER['QUERY_STRING'] : '');
+	}
+
+
+	return $result;
+}
+
+
+function goHome() {
+	$home = getUrl('home');
+	header("Location: {$home}");
+	exit;
+}
+
+function goBack() {
+	$home = getUrl();
+	header("Location: {$home}");
+	exit;
+}
+
+
+
 /**
  * Автоладер классов
  */
@@ -161,10 +267,6 @@ spl_autoload_register(function ($className) {
 		/* folderPath */	$corePath,
 		/* good ext */	['php']
 	);
-
-
-	// debug($arClasses);
-
 
 	if (!empty($arClasses[$className])) {
 

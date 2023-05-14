@@ -11,9 +11,7 @@
 		<? endif; ?>
 
 
-		<? include(_TEMPLATE_PATH_ . '/components/task-list.php') ?>
-
-		<? include(_TEMPLATE_PATH_ . '/components/form__task.php') ?>
+		<? include(_TEMPLATE_PATH_ . '/components/form__login.php') ?>
 
 
 	</div>

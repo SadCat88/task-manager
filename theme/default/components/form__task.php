@@ -1,4 +1,5 @@
-<section class="s_task-form">
+<? if( $arResult['USER']['LOGIN'] ): ?>
+	<section class="s_task-form">
 
 	<h2>Добавить новую задачу</h2>
 
@@ -66,6 +67,7 @@
 	</form>
 	
 </section>
+<? endif;?>
 
 
 

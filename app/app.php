@@ -9,7 +9,7 @@ try {
 
 
 	if (Router::setRoute($_SERVER['REDIRECT_URL'] ?? '/')) {
-		// debug(Router::getRoute());
+		// vd(Router::getRoute());
 		new Controller(Router::getRoute());
 	}
 	//
